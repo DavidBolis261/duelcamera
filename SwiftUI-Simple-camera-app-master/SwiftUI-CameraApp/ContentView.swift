@@ -7,17 +7,28 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
+    @State var isFlashOn = false
     var body: some View {
         ZStack{
             CustomCamController().edgesIgnoringSafeArea(.all)
             VStack{
                 Spacer()
                 HStack{
-                    Button(action:{ }){
-                        Image(systemName: "bolt.circle")
-                    }
+                    Button(action:{
+                        if(isFlashOn == false){
+                            isFlashOn = true
+                            toggleTorch(on: true)
+                        } else {
+                            isFlashOn = false
+                            toggleTorch(on: false)
+                        }
+                    }){
+                        Image(systemName: isFlashOn ? "bolt.slash.circle" : "bolt.circle").font(.largeTitle).foregroundColor(isFlashOn ? Color.red : Color.white)
+                    }.offset(y: -50)
+                    Spacer()
                 }
             }
         }
@@ -25,6 +36,21 @@ struct ContentView: View {
 //        CameraViewController()
 //            .edgesIgnoringSafeArea(.top)
        
+    }
+    func toggleTorch(on: Bool){
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        if device.hasTorch{
+            do{
+                try device.lockForConfiguration()
+                if on == true{
+                    device.torchMode = .on
+                } else {
+                    device.torchMode = .off
+                }
+            } catch{
+                print("Torch is not available")
+            }
+        }
     }
 
 }
