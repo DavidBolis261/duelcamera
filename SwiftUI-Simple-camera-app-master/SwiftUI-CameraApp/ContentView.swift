@@ -8,9 +8,12 @@
 
 import SwiftUI
 import AVFoundation
+import JPSVolumeButtonHandler
 
 struct ContentView: View {
     @State var isFlashOn = false
+    @State var volumeHandler: JPSVolumeButtonHandler?
+    @State var theCamCont: ViewController!
     var body: some View {
         ZStack{
             CustomCamController().edgesIgnoringSafeArea(.all)
@@ -24,6 +27,7 @@ struct ContentView: View {
                         } else {
                             isFlashOn = false
                             toggleTorch(on: false)
+                          
                         }
                     }){
                         Image(systemName: isFlashOn ? "bolt.slash.circle" : "bolt.circle").font(.largeTitle).foregroundColor(isFlashOn ? Color.red : Color.white)
@@ -31,13 +35,21 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+              
         }
-        
-//        CameraViewController()
-//            .edgesIgnoringSafeArea(.top)
+//        .onAppear{
+//            volumeHandler = JPSVolumeButtonHandler(up: {
+//                
+//            }, downBlock: {
+//                
+//            })
+//            volumeHandler?.start(true)
+//        }
+
        
     }
     func toggleTorch(on: Bool){
+        
         guard let device = AVCaptureDevice.default(for: .video) else { return }
         if device.hasTorch{
             do{
@@ -70,5 +82,21 @@ struct CustomCamController: UIViewControllerRepresentable{
     }
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         
+    }
+}
+extension View {
+    func snapshot() -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        let view = controller.view
+
+        let targetSize = controller.view.intrinsicContentSize
+        view?.bounds = CGRect(origin: .zero, size: targetSize)
+        view?.backgroundColor = .clear
+
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+
+        return renderer.image { _ in
+            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        }
     }
 }

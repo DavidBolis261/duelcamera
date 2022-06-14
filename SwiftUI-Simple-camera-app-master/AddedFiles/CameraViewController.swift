@@ -8,19 +8,29 @@ Implements the view controller for the camera interface.
 import UIKit
 import AVFoundation
 import Photos
-
+import JPSVolumeButtonHandler
 class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
 	
 	// MARK: View Controller Life Cycle
-	
+	var ourTimer = Timer()
+    var volumeHandler: JPSVolumeButtonHandler?
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+        
+        volumeHandler = JPSVolumeButtonHandler(up: {
+            self.fliptheCam()
+        }, downBlock: {
+            
+        })
+        volumeHandler?.start(true)
+        
 		// Allow users to double tap to switch between the front and back cameras being in a PiP
 		let togglePiPDoubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(togglePiP))
 		togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
 		view.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
-		
+        
+        
+        
 		// Disable UI. Enable the UI later, if and only if the session starts running.
 		recordButton.isEnabled = false
 		
@@ -53,8 +63,24 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 		// Keep the screen awake
 		UIApplication.shared.isIdleTimerDisabled = true
 	}
+    
+  
+    func capturePhoto(){
+        UIGraphicsBeginImageContextWithOptions(self.view.layer.frame.size, false, UIScreen.main.scale);
+           guard let context = UIGraphicsGetCurrentContext() else {return }
+           self.view.layer.render(in:context)
+           //self.snapShotImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+           let theimage = UIGraphicsGetImageFromCurrentImageContext()
+           UIImageWriteToSavedPhotosAlbum(theimage!, nil, nil, nil)
+           UIGraphicsEndImageContext()
+    }
+    
+    func fliptheCam(){
+        ourTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(togglePiP), userInfo: nil, repeats: false)
+        //ourTimer.invalidate()
+    }
 	
-	override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		sessionQueue.async {
@@ -213,7 +239,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 	@IBOutlet private var backCameraPiPConstraints: [NSLayoutConstraint]!
 	
 	@objc // Expose to Objective-C for use with #selector()
-	private func togglePiP() {
+	public func togglePiP() {
 		// Disable animations so the views move immediately
 		CATransaction.begin()
 		UIView.setAnimationsEnabled(false)
