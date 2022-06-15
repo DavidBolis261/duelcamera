@@ -29,8 +29,6 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 		togglePiPDoubleTapGestureRecognizer.numberOfTapsRequired = 2
 		view.addGestureRecognizer(togglePiPDoubleTapGestureRecognizer)
         
-        
-        
 		// Disable UI. Enable the UI later, if and only if the session starts running.
 		recordButton.isEnabled = false
 		
@@ -151,6 +149,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 		super.viewWillDisappear(animated)
 	}
 	
+    
 	@objc // Expose to Objective-C for use with #selector()
 	private func didEnterBackground(notification: NSNotification) {
 		// Free up resources.
@@ -818,12 +817,24 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 				self.movieRecorder?.startRecording()
 			} else {
 				self.movieRecorder?.stopRecording { movieURL in
-					self.saveMovieToPhotoLibrary(movieURL)
+                    print(movieURL)
+                    DispatchQueue.main.async {
+                        self.MoveToPreview(videoURL: movieURL)
+                    }
+                    
+					//self.saveMovieToPhotoLibrary(movieURL)
 				}
 			}
 		}
 	}
 	
+    func MoveToPreview(videoURL: URL){
+        let vc = storyboard?.instantiateViewController(identifier: "viodeoPPlayer") as! videoPLayer
+        vc.modalPresentationStyle = .fullScreen
+        vc.thevideoURL = videoURL
+        present(vc, animated: false)
+    }
+    
 	private func createAudioSettings() -> [String: NSObject]? {
 		guard let backMicrophoneAudioSettings = backMicrophoneAudioDataOutput.recommendedAudioSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject] else {
 			print("Could not get back microphone audio settings")

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,6 +25,7 @@
 		F0E643EB284F3271005D03D1 /* PiPVideoMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E643E8284F3271005D03D1 /* PiPVideoMixer.swift */; };
 		F0E643ED284F327F005D03D1 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E643EC284F327F005D03D1 /* Utilities.swift */; };
 		F0E643EF284F32FA005D03D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0E643EE284F32FA005D03D1 /* Main.storyboard */; };
+		F0E6444C28599C85005D03D1 /* videoPLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E6444B28599C85005D03D1 /* videoPLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		F0E643E8284F3271005D03D1 /* PiPVideoMixer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PiPVideoMixer.swift; sourceTree = "<group>"; };
 		F0E643EC284F327F005D03D1 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		F0E643EE284F32FA005D03D1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		F0E6444B28599C85005D03D1 /* videoPLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoPLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +117,6 @@
 				33BBF04DE4C835CC6702D94B /* Pods-SwiftUI-CameraAppTests.debug.xcconfig */,
 				1D2C713001E11B2C6FB0CAB3 /* Pods-SwiftUI-CameraAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -202,6 +203,7 @@
 				F0E643E6284F3271005D03D1 /* PreviewView.swift */,
 				F0E643E2284F3246005D03D1 /* CameraViewController.swift */,
 				F0E643E4284F3269005D03D1 /* MovieRecorder.swift */,
+				F0E6444B28599C85005D03D1 /* videoPLayer.swift */,
 			);
 			path = AddedFiles;
 			sourceTree = "<group>";
@@ -466,6 +468,7 @@
 			files = (
 				E351C58C23E0263100EF0E7B /* AppDelegate.swift in Sources */,
 				F0E643E9284F3271005D03D1 /* PreviewView.swift in Sources */,
+				F0E6444C28599C85005D03D1 /* videoPLayer.swift in Sources */,
 				F0E643ED284F327F005D03D1 /* Utilities.swift in Sources */,
 				E351C58E23E0263100EF0E7B /* SceneDelegate.swift in Sources */,
 				E351C59023E0263100EF0E7B /* ContentView.swift in Sources */,
@@ -643,6 +646,7 @@
 				DEVELOPMENT_TEAM = 32GJ539AQ2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "SwiftUI-CameraApp/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -664,6 +668,7 @@
 				DEVELOPMENT_TEAM = 32GJ539AQ2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "SwiftUI-CameraApp/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

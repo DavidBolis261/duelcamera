@@ -9,14 +9,17 @@
 import SwiftUI
 import AVFoundation
 import JPSVolumeButtonHandler
+import AVKit
 
 struct ContentView: View {
     @State var isFlashOn = false
     @State var volumeHandler: JPSVolumeButtonHandler?
     @State var theCamCont: ViewController!
+
     var body: some View {
         ZStack{
             CustomCamController().edgesIgnoringSafeArea(.all)
+            //VideoPlayer(player: AVPlayer(url: FileManager.))
             VStack{
                 Spacer()
                 HStack{
@@ -39,9 +42,9 @@ struct ContentView: View {
         }
 //        .onAppear{
 //            volumeHandler = JPSVolumeButtonHandler(up: {
-//                
+//
 //            }, downBlock: {
-//                
+//
 //            })
 //            volumeHandler?.start(true)
 //        }
