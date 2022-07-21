@@ -271,7 +271,7 @@
     </scenes>
     <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
-        <image name="record.circle" catalog="system" width="128" height="121"/>
+        <image name="record.circle" catalog="system" width="32" height="32"/>
         <image name="repeat" catalog="system" width="128" height="98"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
         <image name="trash" catalog="system" width="121" height="128"/>

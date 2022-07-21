@@ -21,6 +21,7 @@ struct ContentView: View {
             CustomCamController().edgesIgnoringSafeArea(.all)
             //VideoPlayer(player: AVPlayer(url: FileManager.))
             VStack{
+                Text("Double Tap to change The Camera").foregroundColor(Color.white)
                 Spacer()
                 HStack{
                     Button(action:{
