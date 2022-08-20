@@ -46,9 +46,6 @@ class videoPLayer: UIViewController {
         layer.videoGravity = .resizeAspectFill
         self.heVideoOutlet.layer.addSublayer(layer)
         player.play()
-        
-        
-        
         heVideoOutlet.bringSubviewToFront(buttnLayout)
         heVideoOutlet.bringSubviewToFront(trashOulet)
         heVideoOutlet.bringSubviewToFront(saveBTN)
@@ -68,38 +65,57 @@ class videoPLayer: UIViewController {
         dismiss(animated: true)
     }
     private func saveMovieToPhotoLibrary(_ movieURL: URL) {
-        PHPhotoLibrary.requestAuthorization { status in
-            if status == .authorized {
-                // Save the movie file to the photo library and clean up.
-                PHPhotoLibrary.shared().performChanges({
-                    let options = PHAssetResourceCreationOptions()
-                    options.shouldMoveFile = true
-                    let creationRequest = PHAssetCreationRequest.forAsset()
-                    creationRequest.addResource(with: .video, fileURL: movieURL, options: options)
-                }, completionHandler: { success, error in
-                    if !success {
-                        print("\(Bundle.main.applicationName) couldn't save the movie to your photo library: \(String(describing: error))")
-                    } else {
-                        // Clean up
-                        if FileManager.default.fileExists(atPath: movieURL.path) {
-                            do {
-                                try FileManager.default.removeItem(atPath: movieURL.path)
-                            } catch {
-                                print("Could not remove file at url: \(movieURL)")
-                            }
-                        }
-                        
-                    
-                    }
-                })
-            } else {
-                DispatchQueue.main.async {
-                    let alertMessage = "Alert message when the user has not authorized photo library access"
-                    let message = NSLocalizedString("\(Bundle.main.applicationName) does not have permission to access the photo library", comment: alertMessage)
-                    let alertController = UIAlertController(title: Bundle.main.applicationName, message: message, preferredStyle: .alert)
-                    self.present(alertController, animated: true, completion: nil)
-                }
-            }
+//        PHPhotoLibrary.requestAuthorization { status in
+//            if status == .authorized {
+//                // Save the movie file to the photo library and clean up.
+//                PHPhotoLibrary.shared().performChanges({
+//                    let options = PHAssetResourceCreationOptions()
+//                    options.shouldMoveFile = true
+//                    let creationRequest = PHAssetCreationRequest.forAsset()
+//                    creationRequest.addResource(with: .video, fileURL: movieURL, options: options)
+//                }, completionHandler: { success, error in
+//                    if !success {
+//                        print("\(Bundle.main.applicationName) couldn't save the movie to your photo library: \(String(describing: error))")
+//                    } else {
+//                        // Clean up
+//                        if FileManager.default.fileExists(atPath: movieURL.path) {
+//                            do {
+//                                try FileManager.default.removeItem(atPath: movieURL.path)
+//                            } catch {
+//                                print("Could not remove file at url: \(movieURL)")
+//                            }
+//                        }
+//
+//
+//                    }
+//                })
+//            } else {
+//                DispatchQueue.main.async {
+//                    let alertMessage = "Alert message when the user has not authorized photo library access"
+//                    let message = NSLocalizedString("\(Bundle.main.applicationName) does not have permission to access the photo library", comment: alertMessage)
+//                    let alertController = UIAlertController(title: Bundle.main.applicationName, message: message, preferredStyle: .alert)
+//                    self.present(alertController, animated: true, completion: nil)
+//                }
+//            }
+//        }
+        guard let urlData = NSData(contentsOf: movieURL) else {
+            return
         }
+        print(urlData)
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docDirectory = paths[0]
+        let filePath = "\(docDirectory)/tmpVideo.mov"
+        urlData.write(toFile: filePath, atomically: true)
+        // File Saved
+
+        let videoLink = NSURL(fileURLWithPath: filePath)
+
+
+        let objectsToShare = [videoLink] //comment!, imageData!, myWebsite!]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+        activityVC.setValue("Video", forKey: "subject")
+       self.present(activityVC, animated: true, completion: nil)
     }
+    
 }
